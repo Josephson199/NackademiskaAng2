@@ -1,0 +1,30 @@
+<div id="header">
+  <h2>Auction History</h2>
+</div>
+
+<div class="row">
+<div class="col-md-10">
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>AuctionId</th>
+      <th>Auction Name</th>
+      <th>SupplierId</th>
+      <th>CategoryId</th>
+      <th>Detaljer</th>
+    </tr>
+  </thead>
+  <tbody >
+    <tr *ngFor="let auction of auctionHistory">
+      <th scope="row">{{auction?.id}}</th>
+      <td>{{auction?.name}}</td>
+      <td>{{auction?.supplierId}}</td>
+      
+      <td>{{auction?.categoryId}}</td>
+      <td><button class="btn btn-primary" (click)="goToDetails(auction.id)">Detaljer</button></td>
+      
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>

@@ -1,0 +1,38 @@
+<div id="header">
+  <h2>Auctions</h2>
+</div>
+<hr>
+<div class="row">
+  <div class="col-md-12">
+    <form style="margin-bottom: 70px;" class="form-inline my-2 my-lg-0">
+      <input #searchTerm class="form-control mr-sm-2" type="text" placeholder="Search">
+      <button (click)="searchAuctions(searchTerm.value)" class="btn btn-outline-success">Search</button>
+       <button style="margin-left: 8px;" (click)="getActiveAuctions()" class="btn btn-outline-primary">Show all</button>
+        <select (change)="filterByCategory()" [(ngModel)]="selectedCategoryId" name="selectedCategoryId" style="margin-left: 500px;" class="form-control">
+          <option value=0>Choose a category</option>
+          <option *ngFor="let category of categories" value={{category.id}}>
+          {{category.name}}
+        </option>
+       </select>
+    </form>
+     
+  </div>
+
+
+   
+  
+
+</div>
+<hr>
+<div class="row">
+  <div class="list-group col-md-4" *ngFor="let auction of activeAuctions">
+    <a style="margin-bottom:10px;min-height: 140px;" (click)="goToDetails(auction.id)" class="list-group-item list-group-item-action flex-column align-items-start">
+      <div class="d-flex w-100 justify-content-between">
+        <h5>{{auction?.name}}</h5>
+        <small>Ends: {{auction?.endTime  | date}}</small>
+      </div>
+      <p>{{auction?.description}}</p>
+      <small class="text-muted">Buyout: {{auction?.buyNowPrice}}SEK</small>
+    </a>
+  </div>
+</div>

@@ -1,1 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+
+.container{
+    padding-top: 10px;
+
+}
+html, body{
+    background-image: url("app/assets/images/cork-wallet-background.png");
+}

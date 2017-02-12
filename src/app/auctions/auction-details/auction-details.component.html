@@ -1,0 +1,73 @@
+<div class="row">
+    <div class="col-md-4">
+        <div id="header">
+            <h2>Auction Details</h2>
+        </div>
+    </div>
+    <div id="header" class="col-md-2 offset-md-6">
+        <button (click)="cancel()" style="margin-left: 8px;" class="btn btn-outline-primary">Back</button>
+    </div>
+</div>
+<hr>
+
+
+<div class="row">
+    <div class="col-md-3">
+
+        <img src="{{auction.imageUrl}}" />
+
+    </div>
+    <div class="col-md-6">
+        <div class="fine" id="title">
+            <h2 style="display: inline;">{{auction?.name}}</h2><button (click)="goToRetailer(auction.supplierId)" style="float: right;" class="btn btn-outline-success btn-sm">Supplier</button>
+            <hr>
+        </div>
+        <div class="fine" id="description">
+            <p>{{auction?.description}}</p>
+            <hr>
+        </div>
+        <div class="fine" id="ends">
+            <p>Auction <span style="font-weight: bold;">Ends</span> {{auction?.endTime | date:'medium'}}</p>
+            <hr>
+        </div>
+        <div class="fine" id="started">
+            <p>Auction <span style="font-weight: bold;">Started</span> {{auction?.startTime | date:'medium'}}</p>
+            <hr>
+        </div>
+        <div class="fine" id="bid">
+            <p>Current Highest Bid <span style="font-weight: bold;">{{highestBid}}</span> kr </p>
+            <hr>
+        </div>
+
+        <div class="fine" id="placeBid">
+
+            <input style="margin-bottom: 5px;" #bid class="form-control mr-sm-2" type="number" min="{{highestBid + 1}}" placeholder="Bid here">
+            <span (mouseenter)="mouseoverLogin1=true" (mouseleave)="mouseoverLogin1=false">
+            <button [disabled]="!authService.isLoggedIn()" (click)="placeBid(bid.value)" class="btn btn-outline-success">Place Bid</button>
+             </span>
+            <em *ngIf="!authService.isLoggedIn() &&  mouseoverLogin1 ">Please log in</em>
+        </div>
+        <hr>
+        <div class="fine" id="buyNow">
+            <span (mouseenter)="mouseoverLogin2=true" (mouseleave)="mouseoverLogin2=false">    
+                <button [disabled]="!authService.isLoggedIn()" (click)="buyNow()" class="btn btn-outline-primary">Buy Now</button>
+            </span>
+            <label> for <span style="font-weight: bold;">{{auction.buyNowPrice}}</span> kr</label>
+
+            <em *ngIf="!authService.isLoggedIn() &&  mouseoverLogin2 ">Please log in</em>
+        </div>
+        <hr>
+
+
+    </div>
+    <div style="border: 2px solid lightgrey; height: 400px;overflow:scroll;" class="col-md-3" id="bidHistory">
+        <span style="font-weight: bold">Bid History</span>
+        <hr>
+        <ul style="list-style-type: none;margin:0;padding:0">
+            <li *ngFor="let bid of bids">
+               <span style="font-weight: bold">{{ bid?.bidPrice }}</span> kr <span>  {{ bid?.dateTime | date:'short' }}</span>  
+            </li>
+        </ul>
+      
+    </div>
+</div>

@@ -1,0 +1,24 @@
+#header{
+    margin-top: 40px;
+}
+#title{
+    
+    font-size: 20px;
+}
+
+
+img{
+  max-width: 300px;
+  max-height: 400px;
+  padding: 25px;
+  border: 1px solid lightgray;
+
+}
+
+.fine {
+    margin-left: 25px;
+}
+em{
+    color:#E05C65; 
+    padding-left:10px;
+}
