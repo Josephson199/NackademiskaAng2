@@ -14,26 +14,30 @@ import { Bid } from '../auctions/shared/Bid-model'
     `]
 })
 export class SalesReportComponent {
-    constructor(private auctionService: AuctionService) { }
+    constructor(private auctionService: AuctionService) {
+        this.currentTime = new Date().getTime()
+    }
 
     auctionHistory: Auction[]
+    private currentTime: number
 
-    jan = 0
-    feb = 0
-    mars = 0
-    april = 0
-    may = 0
-    june = 0
-    july = 0
-    aug = 0
-    setp = 0
-    oct = 0
-    nov = 0
-    dec = 0
+    private jan = 0
+    private feb = 0
+    private mars = 0
+    private april = 0
+    private may = 0
+    private june = 0
+    private july = 0
+    private aug = 0
+    private setp = 0
+    private oct = 0
+    private nov = 0
+    private dec = 0
 
 
     ngOnInit() {
         this.getAuctionHistory()
+       
     }
 
     getAuctionHistory() {
@@ -46,65 +50,79 @@ export class SalesReportComponent {
             })
 
 
+
+
             for (var i = 0; i < res.length; i++) {
-                // var endTimeAuction = res[i].endTime
+                var endTimeAuction = new Date(res[i].endTime).getTime()
+
+                if (endTimeAuction > this.currentTime) {
+                    let monthnumber = res[i].endTime.toString().substring(5, 7)
+                    this.AddAuctionRevenueToMonth(monthnumber, res[i].buyNowPrice)
+                    continue
+                }
+
                 this.auctionService.getAuctionBidHistory(res[i].id).then(bids => {
+
+
                     let highestBid = Math.max.apply(Math, bids.map(function (o) { return o.bidPrice }))
 
-                    let obj = bids.find(function (o) { return o.bidPrice == highestBid })
+                    if (!isNaN(parseFloat(highestBid)) && isFinite(highestBid) && highestBid > 0) {
+                        let obj = bids.find(function (o) { return o.bidPrice == highestBid })
+                        var monthnumber = obj.dateTime.toString().substring(5, 7)
 
-                    var monthnumber = obj.dateTime.toString().substring(5, 7)
-                    if (!isNaN(parseFloat(highestBid)) && isFinite(highestBid)) {
-                        switch (monthnumber) {
-                            case "01":
-                                this.jan = this.jan + highestBid
-                                break;
-                            case "02":
-                                this.feb = this.feb + highestBid
-                                break;
-                            case "03":
-                                this.mars += highestBid
-                                break;
-                            case "04":
-                                this.april += highestBid
-                                break;
-                            case "05":
-                                this.may += highestBid
-                                break;
-                            case "06":
-                                this.june += highestBid
-                                break;
-                            case "07":
-                                this.july += highestBid
-                                break;
-                            case "08":
-                                this.aug += highestBid
-                                break;
-                            case "09":
-                                this.setp += highestBid
-                                break;
-                            case "10":
-                                this.oct += highestBid
-                                break;
-                            case "11":
-                                this.nov += highestBid
-                                break;
-                            case "12":
-                                this.dec += highestBid
-                                break;
-
-                            default:
-                                console.log("Date parsing error in switch statements..")
-
-                        }
+                        this.AddAuctionRevenueToMonth(monthnumber, highestBid)
                     }
-
-
                 })
 
             }
 
         })
+    }
+
+    AddAuctionRevenueToMonth(month: string, auctionRevenue: number) {
+        switch (month) {
+            case "01":
+                this.jan = this.jan + auctionRevenue
+                break;
+            case "02":
+                this.feb = this.feb + auctionRevenue
+                break;
+            case "03":
+                this.mars += auctionRevenue
+                break;
+            case "04":
+                this.april += auctionRevenue
+                break;
+            case "05":
+                this.may += auctionRevenue
+                break;
+            case "06":
+                this.june += auctionRevenue
+                break;
+            case "07":
+                this.july += auctionRevenue
+                break;
+            case "08":
+                this.aug += auctionRevenue
+                break;
+            case "09":
+                this.setp += auctionRevenue
+                break;
+            case "10":
+                this.oct += auctionRevenue
+                break;
+            case "11":
+                this.nov += auctionRevenue
+                break;
+            case "12":
+                this.dec += auctionRevenue
+                break;
+
+            default:
+                console.log("Date parsing error in switch statements..")
+
+
+        }
     }
 
 

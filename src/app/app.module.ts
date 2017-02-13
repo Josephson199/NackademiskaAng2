@@ -22,8 +22,7 @@ import { AuctionHistoryDetailComponent } from './auctions/auction-history-detail
 import { SalesReportComponent } from './reports/sales-report.component'
 import { RouteGuard } from './route-guard'
 
-import {enableProdMode} from '@angular/core';
-enableProdMode();
+
 
 @NgModule({
   declarations: [
