@@ -5,7 +5,15 @@
     
     font-size: 20px;
 }
-
+#btnCancel{
+    margin-left: 8px;
+}
+.bolder{
+    font-weight: bold
+}
+#bidInput{
+    margin-bottom: 5px;
+}
 
 img{
   max-width: 300px;
@@ -21,4 +29,16 @@ img{
 em{
     color:#E05C65; 
     padding-left:10px;
+}
+#headerAuctionName{
+    display: inline;
+}
+#btnSupplier{
+    float: right;
+}
+#bidHistory{
+    border: 2px solid lightgrey; height: 400px;overflow:scroll;
+}
+#bidHistoryListUL{
+    list-style-type: none;margin:0;padding:0;
 }

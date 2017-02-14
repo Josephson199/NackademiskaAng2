@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Auction } from '../shared/auction-model'
 import { AuctionService } from '../shared/auction.service'
 import { Router } from '@angular/router'
@@ -12,17 +12,17 @@ import { Category } from '../shared/category-model'
 export class AuctionListComponent implements OnInit {
   auction: Auction
   auctions: Auction[]
-  activeAuctions: Auction[]
+  activeAuctions: Auction[] // alltid finnas
   categories: Category[]
   selectedCategoryId: number = 0
-
-
+  allActiveAuctions: Auction[]
 
   constructor(private auctionService: AuctionService, private router: Router) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getActiveAuctions()
     this.getCategories()
+
   }
 
   getCategories(): void {
@@ -30,42 +30,43 @@ export class AuctionListComponent implements OnInit {
       this.categories = categories)
   }
 
-  getAuctions(): void {
+  getActiveAuctions(): void {
+
     this.auctionService.getAuctions().then(auctions =>
-      this.auctions = auctions)
-  }
+      this.activeAuctions = auctions.filter(function (auction) {
+        let currentTime = new Date()
+        let endTimeMs = new Date(auction.endTime)
 
-  getActiveAuctions() {
-
-    this.auctionService.getAuctions().then(activeAuctions =>
-      this.activeAuctions = activeAuctions.filter(function (auction) {
-        return !auction.sold
+        return !auction.sold && (endTimeMs > currentTime)
       })
-    )
+    ).then(x => this.allActiveAuctions = this.activeAuctions)
+
   }
 
-filterByCategory() {
-   
+  filterByCategory(): void {
+
     if (this.selectedCategoryId != 0) {
-        let selectedId = +this.selectedCategoryId
+      let selectedId = +this.selectedCategoryId
 
-        this.auctionService.getAuctions().then(activeAuctions =>
-            this.activeAuctions = activeAuctions.filter(function (auction) {
-                return !auction.sold && (auction.categoryId == selectedId)
-            }))
-    }else{
-      this.getActiveAuctions()
+
+      this.activeAuctions = this.allActiveAuctions.filter(function (auction) {
+        return !auction.sold && auction.categoryId == selectedId
+
+      })
+    } else {
+      this.activeAuctions = this.allActiveAuctions
     }
-  
-}
 
- 
-  searchAuctions(searchTerm: string) {
+  }
+
+
+  searchAuctions(searchTerm: string): void {
     if (searchTerm.length < 1)
-      this.getAuctions()
+      this.activeAuctions = this.allActiveAuctions
     else {
+
       let term = searchTerm.toLocaleLowerCase()
-      this.activeAuctions = this.activeAuctions.filter(function (auction) {
+      this.activeAuctions = this.allActiveAuctions.filter(function (auction) {
         return (auction.name.toLocaleLowerCase().includes(term) || auction.description.toLocaleLowerCase().includes(term))
 
       })
@@ -74,8 +75,7 @@ filterByCategory() {
 
 
 
-
-  goToDetails(auctionId: number) {
+  goToDetails(auctionId: number): void {
     this.router.navigate(['auction', auctionId])
 
   }

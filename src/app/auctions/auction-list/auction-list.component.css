@@ -5,3 +5,15 @@
 a{
     cursor: pointer;
 }
+#formSearchAndCategory{
+    margin-bottom: 70px;
+}
+#btnShowAll{
+    margin-left: 8px;
+}
+#selectCategory{
+    margin-left: 500px;
+}
+#thumbnailAuction{
+    margin-bottom:10px;min-height: 140px;
+}

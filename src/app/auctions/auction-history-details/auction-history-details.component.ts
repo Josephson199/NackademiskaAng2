@@ -1,13 +1,13 @@
-import { Component } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { Auction } from '../shared/auction-model'
 import { AuctionService } from '../shared/auction.service'
 import { Supplier } from '../../suppliers/shared/supplier-model'
 import { SupplierService } from '../../suppliers/shared/supplier.service'
-import { ActivatedRoute, Params } from '@angular/router'
+import { ActivatedRoute, Params, Router } from '@angular/router'
 import { Bid } from '../shared/bid-model'
 import { Location } from '@angular/common'
 
-import { Router } from '@angular/router'
+
 
 @Component({
     templateUrl: './auction-history-details.component.html',
@@ -17,7 +17,7 @@ import { Router } from '@angular/router'
     }
     `]
 })
-export class AuctionHistoryDetailComponent {
+export class AuctionHistoryDetailComponent implements OnInit {
 
     currentAuctionId: number
     auction: Auction
@@ -25,24 +25,47 @@ export class AuctionHistoryDetailComponent {
     highestBid: number
     supplier: Supplier
     provision: number
+   
 
-    constructor(private activeRoute: ActivatedRoute, private auctionService: AuctionService, private supplierService: SupplierService, 
-                private location: Location) { }
+    private currentTime: number
 
+    constructor(private activeRoute: ActivatedRoute, private auctionService: AuctionService, private supplierService: SupplierService,
+        private location: Location, private router: Router) {
+        this.currentTime = new Date().getTime()
+    }
 
+   
 
-    ngOnInit() {
+    ngOnInit(): void {
+        
         this.currentAuctionId = this.activeRoute.snapshot.params['id']
 
         this.auctionService.getAuction(this.currentAuctionId).then(res => {
+            
+            if (res == null) {
+                this.router.navigate(['404'])
+                return
+            }
             this.auction = res
+
+            var endTimeAuction = new Date(res.endTime).getTime()
+            if (endTimeAuction > this.currentTime) {
+                var buyout = true
+                var buyoutAmmount = res.buyNowPrice
+            }
+
             this.supplierService.getSupplier(res.supplierId).then(sup => {
 
                 this.auctionService.getAuctionBidHistory(this.currentAuctionId).then(bids => {
                     let highest = Math.max.apply(Math, bids.map(function (o) { return o.bidPrice; }))
 
-                    
-                    this.provision = highest * sup.commission
+                    if (!buyout) {
+                        this.SetSupplierEarning(highest, sup.commission)
+
+                    } else {
+                        this.SetSupplierEarning(buyoutAmmount, sup.commission)
+                    }
+
                     this.supplier = sup
                 })
             })
@@ -51,10 +74,13 @@ export class AuctionHistoryDetailComponent {
 
 
 
-  cancel() {
-    this.location.back()
-  }
+    cancel(): void {
+        this.location.back()
+    }
 
+    SetSupplierEarning(salePrice: number, commission: number): void {
+        this.provision = salePrice * commission
+    }
 
 
 }

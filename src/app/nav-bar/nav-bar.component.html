@@ -25,16 +25,16 @@
     <div class="navbar-header navbar-right">
         <ul class="nav navbar-nav">
           <li>
-             <a [routerLink]="['/admin/salesreport']" style="margin-right:10px;border: 1px solid palevioletred; padding: 5px;" *ngIf="authService.isAdmin()" class="nav-link">Sales Report</a>
+             <a [routerLink]="['/admin/salesreport']"  *ngIf="authService.isAdmin()" class="adminBorder nav-link">Sales Report</a>
           </li>
           <li>
-               <a [routerLink]="['/admin/auctionhistory']" style="margin-right:10px;border: 1px solid palevioletred; padding: 5px;" *ngIf="authService.isAdmin()" class="nav-link">Auction History</a>
+               <a [routerLink]="['/admin/auctionhistory']" *ngIf="authService.isAdmin()" class="adminBorder nav-link">Auction History</a>
           </li>
           <li>
              
              <a *ngIf="authService.isLoggedIn()" class="nav-link">Welcome {{authService.user.firstName}}</a>
             
-             <a style="border: 1px solid palevioletred; padding: 5px;" *ngIf="authService.isAdmin()" class="nav-link">Logged in as Admin</a>
+             <a *ngIf="authService.isAdmin()" class="adminBorder nav-link">Logged in as Admin</a>
           </li>
           <li>
             <a *ngIf="!authService.isAdmin() && !authService.isLoggedIn()" class="nav-link" [routerLink]="['/admin/login']">Admin Login</a>

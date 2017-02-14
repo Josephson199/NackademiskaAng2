@@ -21,6 +21,7 @@ import { AuctionHistoryComponent } from './auctions/auction-history/auction-hist
 import { AuctionHistoryDetailComponent } from './auctions/auction-history-details/auction-history-details.component'
 import { SalesReportComponent } from './reports/sales-report.component'
 import { RouteGuard } from './route-guard'
+import { Error404Component } from './error/404.component'
 
 
 
@@ -36,7 +37,8 @@ import { RouteGuard } from './route-guard'
     AdminLoginComponent,
     AuctionHistoryComponent,
     AuctionHistoryDetailComponent,
-    SalesReportComponent
+    SalesReportComponent,
+    Error404Component
   ],
   imports: [
     BrowserModule,

@@ -5,3 +5,6 @@ nav{
 a:hover{
  cursor: pointer;
 }
+.adminBorder{
+   margin-right:10px;border: 1px solid palevioletred; padding: 5px;
+}

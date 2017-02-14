@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { AuctionService } from '../auctions/shared/auction.service'
 import { Auction } from '../auctions/shared/auction-model'
 import { Bid } from '../auctions/shared/Bid-model'
@@ -8,12 +8,10 @@ import { Bid } from '../auctions/shared/Bid-model'
 @Component({
     templateUrl: './sales-report.component.html',
     styles: [`
-    #header{
-         margin-top: 40px;
-    }
+    #header{ margin-top: 40px; }
     `]
 })
-export class SalesReportComponent {
+export class SalesReportComponent implements OnInit {
     constructor(private auctionService: AuctionService) {
         this.currentTime = new Date().getTime()
     }
@@ -35,20 +33,18 @@ export class SalesReportComponent {
     private dec = 0
 
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.getAuctionHistory()
        
     }
 
-    getAuctionHistory() {
+    getAuctionHistory(): void {
         this.auctionService.getAuctionHistory().then(res => {
-            var arr = []
-
+            
 
             res = res.filter(function (res) {
                 return res.sold == true
             })
-
 
 
 
@@ -57,8 +53,8 @@ export class SalesReportComponent {
 
                 if (endTimeAuction > this.currentTime) {
                     let monthnumber = res[i].endTime.toString().substring(5, 7)
-                    this.AddAuctionRevenueToMonth(monthnumber, res[i].buyNowPrice)
-                    continue
+                        this.AddAuctionRevenueToMonth(monthnumber, res[i].buyNowPrice)
+                            continue
                 }
 
                 this.auctionService.getAuctionBidHistory(res[i].id).then(bids => {
@@ -79,13 +75,13 @@ export class SalesReportComponent {
         })
     }
 
-    AddAuctionRevenueToMonth(month: string, auctionRevenue: number) {
+    AddAuctionRevenueToMonth(month: string, auctionRevenue: number): void {
         switch (month) {
             case "01":
-                this.jan = this.jan + auctionRevenue
+                this.jan += auctionRevenue
                 break;
             case "02":
-                this.feb = this.feb + auctionRevenue
+                this.feb += auctionRevenue
                 break;
             case "03":
                 this.mars += auctionRevenue

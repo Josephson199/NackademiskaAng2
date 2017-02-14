@@ -5,7 +5,7 @@
         </div>
     </div>
     <div id="header" class="col-md-2 offset-md-6">
-        <button (click)="cancel()" style="margin-left: 8px;" class="btn btn-outline-primary">Back</button>
+        <button id="btnCancel" (click)="cancel()" class="btn btn-outline-primary">Back</button>
     </div>
 </div>
 <hr>
@@ -19,7 +19,7 @@
     </div>
     <div class="col-md-6">
         <div class="fine" id="title">
-            <h2 style="display: inline;">{{auction?.name}}</h2><button (click)="goToRetailer(auction.supplierId)" style="float: right;" class="btn btn-outline-success btn-sm">Supplier</button>
+            <h2 id="headerAuctionName">{{auction?.name}}</h2><button id="btnSupplier" (click)="goToRetailer(auction.supplierId)" class="btn btn-outline-success btn-sm">Supplier</button>
             <hr>
         </div>
         <div class="fine" id="description">
@@ -27,21 +27,21 @@
             <hr>
         </div>
         <div class="fine" id="ends">
-            <p>Auction <span style="font-weight: bold;">Ends</span> {{auction?.endTime | date:'medium'}}</p>
+            <p>Auction <span class="bolder">Ends</span> {{auction?.endTime | date:'medium'}}</p>
             <hr>
         </div>
         <div class="fine" id="started">
-            <p>Auction <span style="font-weight: bold;">Started</span> {{auction?.startTime | date:'medium'}}</p>
+            <p>Auction <span class="bolder">Started</span> {{auction?.startTime | date:'medium'}}</p>
             <hr>
         </div>
         <div class="fine" id="bid">
-            <p>Current Highest Bid <span style="font-weight: bold;">{{highestBid}}</span> kr </p>
+            <p>Current Highest Bid <span class="bolder">{{highestBid}}</span> kr </p>
             <hr>
         </div>
 
         <div class="fine" id="placeBid">
 
-            <input style="margin-bottom: 5px;" #bid class="form-control mr-sm-2" type="number" min="{{highestBid + 1}}" placeholder="Bid here">
+            <input id="bidInput" #bid class="form-control mr-sm-2" type="number" min="{{highestBid + 1}}" placeholder="Bid here">
             <span (mouseenter)="mouseoverLogin1=true" (mouseleave)="mouseoverLogin1=false">
             <button [disabled]="!authService.isLoggedIn()" (click)="placeBid(bid.value)" class="btn btn-outline-success">Place Bid</button>
              </span>
@@ -52,7 +52,7 @@
             <span (mouseenter)="mouseoverLogin2=true" (mouseleave)="mouseoverLogin2=false">    
                 <button [disabled]="!authService.isLoggedIn()" (click)="buyNow()" class="btn btn-outline-primary">Buy Now</button>
             </span>
-            <label> for <span style="font-weight: bold;">{{auction.buyNowPrice}}</span> kr</label>
+            <label> for <span class="bolder">{{auction.buyNowPrice}}</span> kr</label>
 
             <em *ngIf="!authService.isLoggedIn() &&  mouseoverLogin2 ">Please log in</em>
         </div>
@@ -60,12 +60,12 @@
 
 
     </div>
-    <div style="border: 2px solid lightgrey; height: 400px;overflow:scroll;" class="col-md-3" id="bidHistory">
-        <span style="font-weight: bold">Bid History</span>
+    <div class="col-md-3" id="bidHistory">
+        <span class="bolder">Bid History</span>
         <hr>
-        <ul style="list-style-type: none;margin:0;padding:0">
+        <ul id="bidHistoryListUL">
             <li *ngFor="let bid of bids">
-               <span style="font-weight: bold">{{ bid?.bidPrice }}</span> kr <span>  {{ bid?.dateTime | date:'short' }}</span>  
+               <span class="bolder">{{ bid?.bidPrice }}</span> kr <span>  {{ bid?.dateTime | date:'short' }}</span>  
             </li>
         </ul>
       

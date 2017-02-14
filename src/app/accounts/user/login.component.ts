@@ -8,32 +8,33 @@ import { LoginModel } from '../shared/login-model'
     templateUrl: './login.component.html',
     styles: [`
         em { float:right; color:#E05C65; padding-left:10px; }
+        #signInHeader { margin-bottom: 40px;margin-top:40px; }
     `]
 })
 export class LoginComponent {
 
     loginModel: LoginModel = { email: "", password: "" }
-    loginRes: string = "" 
+    loginRes: string = ""
 
     constructor(private location: Location, private authService: AuthService, private router: Router) { }
 
 
-    login() {
+    login(): void {
         this.authService.loginUser(this.loginModel).then(res => {
             if (res) {
                 this.router.navigate(['auctions']
                 )
             }
-            else{
+            else {
                 this.loginRes = "Wrong email or Password"
             }
         })
 
     }
 
-    cancel() {
-    this.location.back()
-}
+    cancel(): void {
+        this.location.back()
+    }
 }
 
 

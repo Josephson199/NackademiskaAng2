@@ -4,7 +4,7 @@ export class Auction{
     description: string
     startTime: Date
     endTime: Date
-    imageUrl: string
+    imageUrl: string = "https://www.timberblock.com/wp-content/uploads/default-placeholder-300x300.png"
     categoryId: number
     supplierId: number
     buyNowPrice: number
@@ -12,15 +12,3 @@ export class Auction{
 
 }
 
-/*
-id - Auktionens id
-name - Auktionens namn
-description - Auktionens beskrivning
-startTime - Auktionens starttid
-endTime - Auktionens sluttid
-imageUrl - Auktionens bild
-categoryId - Auktionens kategori id
-supplierId - Auktionens leverantörs id
-buyNowPrice - Auktionens acceptpris
-sold - Om auktionen är såld eller inte 
-*/

@@ -10,6 +10,7 @@ import { AuctionHistoryComponent } from './auctions/auction-history/auction-hist
 import { AuctionHistoryDetailComponent } from './auctions/auction-history-details/auction-history-details.component'
 import { SalesReportComponent } from './reports/sales-report.component'
 import { RouteGuard } from './route-guard'
+import { Error404Component } from './error/404.component'
 
 export const appRoutes:Routes = [
     { path: 'auctions', component: AuctionListComponent },
@@ -21,5 +22,7 @@ export const appRoutes:Routes = [
     { path: 'admin/auctionhistory', component: AuctionHistoryComponent, canActivate: [RouteGuard] },
     { path: 'admin/auctionhistorydetail/:id', component: AuctionHistoryDetailComponent, canActivate: [RouteGuard] },
     { path: 'admin/salesreport', component:  SalesReportComponent, canActivate: [RouteGuard] },
+    { path: '404', component: Error404Component },
+    { path: '**', component: Error404Component },
     { path: '', redirectTo: 'auctions', pathMatch: 'full'}
 ]

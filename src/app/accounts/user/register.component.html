@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <form novalidate #loginForm="ngForm" class="form-signin">
-                <h2 style="margin-bottom: 20px;margin-top:20px; " class="form-signin-heading">Register</h2>
+                <h2 id="registerHeader" class="form-signin-heading">Register</h2>
                 <hr>
                 <div class="row">
                     <div class="col-md-6">
@@ -68,7 +68,7 @@
                     <span (mouseenter)="mouseoverLogin=true" (mouseleave)="mouseoverLogin=false">    
                     <button (click)="registerUser()" [disabled]="loginForm.invalid" class="btn btn-lg btn-outline-primary" type="button">Register</button>
                    </span>
-                    <button style="float: right;" (click)="cancel()" type="button" class="btn btn-lg btn-outline-warning">Cancel</button>
+                    <button id="btnCancel" (click)="cancel()" type="button" class="btn btn-lg btn-outline-warning">Cancel</button>
                 </div>
             </form>
 

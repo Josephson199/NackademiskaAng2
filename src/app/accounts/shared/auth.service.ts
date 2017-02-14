@@ -19,25 +19,23 @@ export class AuthService {
     isAdmin(): boolean {
 
         let jwtStr = localStorage.getItem('jwtStr')
-                
         if (jwtStr != null) {
-            
+
             let jwt = JSON.parse(jwtStr)
 
-            var currentTime = new Date().getTime()
+            var currentTime = new Date()
+            var jwtExpire = new Date(jwt.expiration)
 
-            var jwtExpire = new Date(jwt.expiration).getTime()
-            
-            if (currentTime < jwtExpire){
-                    return true
-            }else{
+            if (currentTime < jwtExpire) {
+                return true
+            } else {
                 localStorage.removeItem('jwtStr')
             }
-               
+
 
             return false
         }
-        
+
         return false
     }
 
@@ -82,8 +80,6 @@ export class AuthService {
             .catch(this.handleError)
 
         localStorage.removeItem('jwtStr')
-        
-
 
     }
 
@@ -106,9 +102,6 @@ export class AuthService {
                 if (jwt) {
                     let jwtStr = JSON.stringify(jwt)
                     localStorage.setItem('jwtStr', jwtStr)
-                   
-                   
-
                 }
                 return true
             })

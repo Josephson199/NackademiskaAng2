@@ -19,8 +19,8 @@ export class AuctionDetailsComponent implements OnInit {
   auction: Auction = new Auction
   bids: Bid[] = []
   highestBid: number = 0
-  buyNowResult: boolean
-  makeBid: number
+ 
+ 
 
 
 
@@ -28,26 +28,36 @@ export class AuctionDetailsComponent implements OnInit {
     private router: Router, private location: Location,
     private authService: AuthService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.currentAuctionId = this.activeRoute.snapshot.params['id']
 
 
     this.auctionService.getAuction(this.currentAuctionId).then(auction => {
+      if (auction == null) {
+        this.router.navigate(['404'])
+      }
       this.auction = auction
     })
 
     this.auctionService.getAuctionBidHistory(this.currentAuctionId).then(bids =>
       this.bids = bids.reverse()
-    ).then(bids => this.highestBid = Math.max.apply(Math, this.bids.map(function (o) { return o.bidPrice; })))
+
+    ).then(bids => {
+      var highestBid = Math.max.apply(Math, this.bids.map(function (o) { return o.bidPrice; }))
+
+      if (!isNaN(parseFloat(highestBid)) && isFinite(highestBid) && highestBid > 0) {
+        this.highestBid = highestBid
+      }
+    })
   }
 
-  
 
 
-  placeBid(bid: number) {
+
+  placeBid(bid: number): void {
     let userId = this.authService.user.id
     this.auctionService.placeBid(this.auction.id, userId, bid).then(response => {
-      if(response){
+      if (response) {
         alert("Tack för ditt bud!")
         this.ngOnInit()
       }
@@ -55,27 +65,24 @@ export class AuctionDetailsComponent implements OnInit {
 
   }
 
-  buyNow() {
+  buyNow(): void {
     let userId = this.authService.user.id
 
     this.auctionService.buyNow(this.auction.id, userId).then(response => {
-      if(response){
+      if (response) {
         alert("Tack för ditt köp!")
         this.router.navigate(['auctions'])
       }
     })
-    
-
-    
   }
 
 
-  cancel() {
+  cancel(): void {
     this.location.back()
   }
 
 
-  goToRetailer(supplierId: number) {
+  goToRetailer(supplierId: number): void {
     this.router.navigate(['supplier', supplierId])
   }
 
